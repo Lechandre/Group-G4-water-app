@@ -1,0 +1,23 @@
+
+
+body {
+    background-color: white;
+    /*border: 5px solid black;*/
+    margin: 80px;
+}
+
+.style {
+    font-size: large;
+    color: rgb(160, 20, 113);
+    margin: 5px auto;
+    font-style: oblique;
+    
+    
+}
+
+.updateBtn {
+    background-color: grey;
+    border-radius: 8px;
+    height: 35px;
+     
+}
