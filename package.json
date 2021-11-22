@@ -1,0 +1,27 @@
+{
+  "name": "group-g4-water-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "leak-screen.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lechandre/Group-G4-water-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lechandre/Group-G4-water-app/issues"
+  },
+  "homepage": "https://github.com/Lechandre/Group-G4-water-app#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^6.0.1",
+    "sqlite": "^4.0.23",
+    "sqlite3": "^5.0.2"
+  }
+}
