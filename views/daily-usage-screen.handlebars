@@ -1,0 +1,188 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usage Screen</title>
+    <link rel="stylesheet" href="daily-usage-screen.css">
+    <script src="image-2"></script>
+    
+
+
+    
+    
+</head>
+<body>
+
+    <form action="daily-usage-screen" method="post">
+
+    <div class="style screen-1">
+    
+<h1>This is your Water Usage Page</h1>
+
+</div>
+
+
+<div class="myChart" style="width: 300px; height: 200px;">
+  <canvas id="myChart" ></canvas>
+  <div>
+  <button onclick="updateValue('Shower', 3)">Update Shower</button>
+</div>
+<div>
+  <button onclick="updateValue('Washing Machine', 6)">Update Washing Machine</button>
+</div>
+<div>
+  <button onclick="updateValue('Toilet', 9)">Update Toilet</button>
+</div>
+<div>
+  <button onclick="updateValue('Dishwasher',12)">Update Dishwasher</button>
+</div>
+<div>
+  <button onclick="updateValue('Taps', 15)">Update Taps</button>
+</div>
+<div>
+  <button onclick="updateValue('Garden', 18)">Update Garden</button>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+</body>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // === include 'setup' then 'config' above ===
+
+  
+  
+  
+  
+  
+  
+  const labels = [
+    'Shower', 
+    'Washing Machine', 
+    'Toilet', 
+    'Dishwasher', 
+    'Taps', 
+    'Garden'];
+
+const data = {
+  labels: labels, 
+  datasets: [{
+    label: 'Daily Water Usage',
+    data: [200,  18,  63, 20, 36, 15],
+    /*data: [3, 6, 9, 12, 15, 18, 24],*/
+    backgroundColor: ['rgb(7, 8, 58)', 
+                      'rgb(23, 14, 138)',
+                      'rgb(18, 80, 214)',
+                      'rgb(54, 164, 238)',
+                      'rgb(34, 118, 124)',
+                      'rgb(14, 134, 98)',
+                      'rgb(24, 221, 123)'
+
+    
+  ]
+    
+  }]
+};
+
+const config = {
+  type: 'doughnut',
+  data: data,
+  options: {}
+};
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+
+function updateValue(labeltext, labelvalue) {
+  console.log(labeltext);
+  console.log(labelvalue);
+  const indexnum = labels.indexOf(labeltext);
+  console.log(indexnum); 
+  //myChart.config.data.labels[4] = 'holiday';
+  myChart.config.data.datasets[0].data[indexnum] = labelvalue; 
+  myChart.update(); 
+
+}
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // === include 'setup' then 'config' above ===
+
+  
+  
+  
+  
+  
+  
+  const labels = ['Shower', 'Washing Machine', 'Toilet', 'Dishwasher', 'Taps', 'Garden'];
+
+const data = {
+  labels: labels, 
+  datasets: [{
+    label: 'Daily Water Usage',
+    data: [200,  18,  63, 20, 36, 15],
+    /*data: [3, 6, 9, 12, 15, 18, 24],*/
+    backgroundColor: ['rgb(255, 99, 132)', 
+                      'rgb(160, 20, 113)',
+                      'rgb(46, 20, 160)',
+                      'rgb(36, 160, 20)',
+                      'rgb(20, 127, 160)',
+                      'rgb(160, 20, 20)',
+                      'rgb(195, 207, 22)'
+
+    
+  ]
+    
+  }]
+};
+
+const config = {
+  type: 'bar',
+  data: data,
+  options: {}
+};
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+
+function updateValue(labeltext, labelvalue) {
+  console.log(labeltext);
+  console.log(labelvalue);
+  const indexnum = labels.indexOf(labeltext);
+  console.log(indexnum); 
+  //myChart.config.data.labels[4] = 'holiday';
+  myChart.config.data.datasets[0].data[indexnum] = labelvalue; 
+  myChart.update(); 
+
+}
+
+
+</script>
+
+
+
+
+<script src="usage-screen.js"></script>
+</html>

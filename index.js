@@ -20,8 +20,20 @@ const { open } = require('sqlite');
 //app.set('view engine', 'handlebars'); 
 
 
-app.engine('handlebars', exphbs({defaultLayout: false}));
+const path = require('path');
+//Configuring express handlebars
+var hbs = exphbs.create({
+  helpers: {
+      getStringifiedJson: function (value) {
+          return JSON.stringify(value);
+      }
+  },
+  defaultLayout: 'main',
+  partialsDir: ['views/partials/']
+});
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'views'));
 
 
 
@@ -45,61 +57,135 @@ open({
   await db.migrate(); 
 
   app.get('/', function (req, res) {
-    res.render('home');
-  });
-
-  //app.get('/', function (req, res) {
-
-    //db
-    //.all('select * from register')
-    //.then(function(register){
-
-      //res.render('history-screen');
-
-    //});
-      //console.log(register); 
-    //})
-    
-    
+    res.render('login-screen');
   
+
+  
+
+    db
+    .all('select * from register')
+    .then(function(register){
+
+      console.log(register); 
+
+    
+       
+    })
+
+  });
+    
+    
+    app.get('/login-screen', function (req, res) {
+      res.render('login-screen');
+    });
+
+    app.get('/register-screen', function (req, res) {
+      res.render('register-screen');
+    });
   
   app.get('/leak-screen', function (req, res) {
-    res.render('home');
+    res.render('leak-screen');
+  });
+
+  app.get('/weekly-usage-screen', function (req, res) {
+    res.render('weekly-usage-screen');
+  });
+
+  app.get('/month-usage-screen', function (req, res) {
+    res.render('month-usage-screen');
   });
   
   app.get('/history-screen', function (req, res) {
-    res.render('home');
+    res.render('history-screen');
   });
   
   app.get('/update-screen', function (req, res) {
-    res.render('home');
+    res.render('update-screen');
   });
 
-  app.get('/usage-screen', function (req, res) {
-    res.render('home');
+  app.get('/daily-usage-screen', function (req, res) {
+    res.render('daily-usage-screen');
+  });
+
+  //app.post('/login',  function (req, res) {
+    
+    //console.log(req.body); 
+  
+    //res.redirect('daily-usage-screen'); 
+  //});
+
+  app.post('/login',  function (req, res) {
+    
+    console.log(req.body); 
+  
+    res.redirect('leak-screen'); 
+  });
+
+  app.post('/register-screen',  function (req, res) {
+    
+    console.log(req.body); 
+
+
+
+  res.redirect('leak-screen');  
+  
+  });
+
+  app.post('/registration',  function (req, res) {
+    
+    console.log(req.body); 
+
+
+
+  res.redirect('register-screen');  
+  
   });
 
   app.post('/leak-screen',  function (req, res) {
     
     console.log(req.body); 
+
+    res.redirect('daily-usage-screen');
   
   }); 
   
   app.post('/history-screen',  function (req, res) {
       
       console.log(req.body); 
+
+      res.redirect('history-screen');
   
     });
   
     app.post('/update-screen',  function (req, res) {
       
       console.log(req.body); 
+
+      res.redirect('update-screen');
     
     });
 
-  app.post('/usage-screen',  function (req, res) {
+  app.post('/daily-usage-screen',  function (req, res) {
     
     console.log(req.body); 
+
+    res.redirect('daily-usage-screen');
+  
+  });
+
+  app.post('/weekly-usage-screen',  function (req, res) {
+    
+    console.log(req.body); 
+
+    res.redirect('weekly-usage-screen');
+  
+  });
+
+  app.post('/month-usage-screen',  function (req, res) {
+    
+    console.log(req.body); 
+
+    res.redirect('month-usage-screen');
   
   });
 
@@ -122,6 +208,10 @@ app.listen(PORT, function(){
 //app.get('/', function (req, res) {
   //res.render('home');
 //});
+
+
+
+
 
 
 

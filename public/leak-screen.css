@@ -13,13 +13,24 @@ body {
     font-style: oblique;
 }
 
-.usageBtn {
+.dayBtn {
+    background-color: grey;
+border-radius: 8px;
+height: 35px;
+}
+
+.weekBtn {
     background-color: grey;
     border-radius: 8px;
     height: 35px;
-
-    
 }
+
+.monthBtn {
+    background-color: grey;
+    border-radius: 8px;
+    height: 35px;
+}
+
 
 .historyBtn {
     background-color: grey;

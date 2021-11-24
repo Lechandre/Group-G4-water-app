@@ -8,6 +8,6 @@ updateBtn.addEventListener('click', function() {
 
     alert("hello")
 
-    //alert(theInputOne.value);
+//alert(theInputOne.value);
     //alert(theInputTwo.value);
 });

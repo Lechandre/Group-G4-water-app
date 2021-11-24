@@ -1,6 +1,7 @@
 
 
 body {
+    
     background-color: white;
     /*border: 5px solid black;*/
     margin: 80px;
@@ -11,12 +12,6 @@ body {
     color: rgb(160, 20, 113);
     margin: 5px auto;
     font-style: oblique;
+    
+    
 }
-
-.myChart {
-    /*background-color: grey;*/
-    margin: 5px auto; 
-    width: 850px; height: 850px;
-}
-
-/*this places the pic in the center of the page*/

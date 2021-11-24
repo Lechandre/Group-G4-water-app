@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Month water usage screen</title>
+    <link rel="stylesheet" href="month-usage-screen.css">
+    
+</head>
+<body>
+
+    <form action="month-usage-screen" method="post">
+    
+    <div class="style screen-1">
+    
+        <h1>This is your Month Water Usage Page</h1>
+
+        <div class="myChart" style="width: 300px; height: 200px;">
+            <canvas id="myChart"></canvas>
+          </div>
+
+        </form>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // === include 'setup' then 'config' above ===
+    const data = {
+  labels: [
+    'Week 1',
+    'Week 2',
+    'Week 3'
+  ],
+  datasets: [{
+    label: 'My First Dataset',
+    data: [300, 50, 100],
+    backgroundColor: [
+      'rgb(7, 8, 58)',
+      'rgb(54, 164, 238)',
+      'rgb(34, 118, 124)'
+    ],
+    hoverOffset: 4
+  }]
+};
+
+const config = {
+  type: 'doughnut',
+  data: data,
+};
+  
+    const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+  </script>
+
+
+</html>
