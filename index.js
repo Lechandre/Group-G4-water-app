@@ -97,6 +97,18 @@ open({
   
   app.get('/history-screen', function (req, res) {
     res.render('history-screen');
+
+    db
+    .all('select * from history')
+    .then(function(history){
+
+      console.log(history); 
+
+    
+       
+    })
+
+    
   });
   
   app.get('/update-screen', function (req, res) {
