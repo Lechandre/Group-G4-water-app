@@ -24,7 +24,11 @@
 
 <div class="myChart" >
   <canvas id="myChart"></canvas>
+
+
 </div>
+
+
  
  </form>
 
@@ -55,16 +59,21 @@
 const data = {
   labels: labels, 
   datasets: [{
-    label: 'Monthly water usage history',
-    data: [7100, 7000, 6500, 7400, 7000, 6000, 6900, 7000, 7300, 7200, 7250, 7500]
+    label: 'Monthly Water Usage',
+    data: [7100, 6200, 6500, 7400, 7000, 6000, 6900, 7000, 7300, 7200, 7250, 7500],
     /*data: [3, 6, 9, 12, 15, 18, 24],*/
-    backgroundColor: ['rgb(255, 99, 132)', 
-                      'rgb(160, 20, 113)',
-                      'rgb(46, 20, 160)',
-                      'rgb(36, 160, 20)',
-                      'rgb(20, 127, 160)',
-                      'rgb(160, 20, 20)',
-                      'rgb(195, 207, 22)'
+    backgroundColor: ['rgb(255, 99, 132)',
+                'rgb(160, 20, 113)',
+                'rgb(46, 20, 160)',
+                'rgb(36, 160, 20)',
+                'rgb(20, 127, 160)',
+                'rgb(160, 20, 20)',
+                'rgb(195, 207, 22)',
+                'rgba(177, 228, 208, 0.938)',
+                'rgba(197, 228, 177, 0.938)',
+                'rgba(217, 228, 177, 0.938)',
+                'rgba(143, 145, 137, 0.938)',
+                'rgba(226, 207, 222, 0.937)',
 
     
   ]
@@ -75,15 +84,24 @@ const data = {
 const config = {
   type: 'bar',
   data: data,
-  options: {}
+  options: {
+    scales: {
+      y: {
+                suggestedMin: 5000,
+                suggestedMax: 8000
+            }
+    }
+  }
 };
 
   const myChart = new Chart(
     document.getElementById('myChart'),
     config
   );
+
+  
 </script>
 
-<script src="history-screen.js"></script>
+
 
 </html>

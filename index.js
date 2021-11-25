@@ -207,6 +207,33 @@ app.listen(PORT, function(){
 
 
 
+//const stats = require("stats-analysis") // include statistics library
+
+//const arr = [5, 7, 6, 5, 6, 6, 0];
+//const outlier = stats.indexOfOutliers(arr)  // Default theshold of 3
+//last = arr[arr.length - 1]
+//console.log(outlier)
+
+//is_outlier = arr[outlier]  == last
+//if(is_outlier)
+//{
+    //if(last > stats.mean(arr))
+    //{
+        //console.log("Too much")
+    //}
+    //else
+    //{
+        //console.log("Saved")
+    //}
+//}
+//else
+//{
+    //console.log("Normal")
+//}
+//if(outlier ==null)
+//{
+    //console.log(arr[outlier])
+//}
 
 
 
