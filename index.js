@@ -56,21 +56,24 @@ open({
 }).then(async function (db) {
   await db.migrate(); 
 
-  app.get('/', function (req, res) {
-    res.render('login-screen');
+  app.get('/', async function (req, res) {
+    
+  
+const register = await db.all('select * from register')
+res.render('login-screen', {
+  register
+
+}); 
   
 
-  
+    
+    //.then(function(register){
 
-    db
-    .all('select * from register')
-    .then(function(register){
-
-      console.log(register); 
+      //console.log(register); (this shows the whole database on the terminal)
 
     
        
-    })
+    //})
 
   });
     
@@ -111,9 +114,7 @@ open({
     
   });
   
-  app.get('/update-screen', function (req, res) {
-    res.render('update-screen');
-  });
+  
 
   app.get('/daily-usage-screen', function (req, res) {
     res.render('daily-usage-screen');
@@ -169,13 +170,7 @@ open({
   
     });
   
-    app.post('/update-screen',  function (req, res) {
-      
-      console.log(req.body); 
-
-      res.redirect('update-screen');
     
-    });
 
   app.post('/daily-usage-screen',  function (req, res) {
     
