@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,36 +11,104 @@
 
 
 </head>
+
 <body>
 
-    <form>
-  <label for="usage">Insert new usage:</label><br>
-  <input type="text" id="usage" name="usage"><br>
-  
-  
-</form>
-    
-    
 
-    <ul>
-        {{#each usageList}} 
-        <li>
-            {{this}}
+    <div>
+        <strong>Average {{heading}} water usage:</strong> {{mean}} litres.
+    </div>
+
+    <form method="post" action="/submit_usage">
+        <input type="hidden" name="type" value="{{heading}}">
+        <input type="number" name="latest_usage">
+        <input type="submit" value="Add new usage">
+    </form>
+
+    <div class="{{messageStyle}} message">
+        {{message}}
+    </div>
+
+    {{!-- <ul>
+        {{#each usageList}}
+        <li class="usage {{status}}">
+            {{value}}
         </li>
         {{/each}}
-    </ul>
+    </ul> --}}
 
-<div class="{{messageStyle}} message" >
-	{{message}}
+    <div class="myChart" >
+  <canvas id="myChart"></canvas>
+
+
 </div>
 
-<form method="post" action="/submit_usage">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-	<input type="number" name="latest_usage" >
-	<input type="submit" value="Add new usage..." >
+<script>
+  // === include 'setup' then 'config' above ===
 
+  const labels = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+];
+const data = {
+  labels: labels, 
+  datasets: [{
+    label: '{{heading}} Water Usage',
+    data: [
+        {{#each usageList}}
+            {{value}},
+        {{/each}}
+    ],
+    /*data: [3, 6, 9, 12, 15, 18, 24],*/
+    backgroundColor: ['rgb(255, 99, 132)',
+                'rgb(160, 20, 113)',
+                'rgb(46, 20, 160)',
+                'rgb(36, 160, 20)',
+                'rgb(20, 127, 160)',
+                'rgb(160, 20, 20)',
+                'rgb(195, 207, 22)',
+                'rgba(177, 228, 208, 0.938)',
+                'rgba(197, 228, 177, 0.938)',
+                'rgba(217, 228, 177, 0.938)',
+                'rgba(143, 145, 137, 0.938)',
+                'rgba(226, 207, 222, 0.937)',
+  ]
+    
+  }]
+};
 
+const config = {
+  type: 'bar',
+  data: data,
+  options: {
+    scales: {
+      y: {
+                suggestedMin: 20,
+                suggestedMax: 50
+            }
+    }
+  }
+};
 
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+
+  
+</script>
 
 </body>
 

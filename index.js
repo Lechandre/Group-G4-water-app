@@ -1,8 +1,8 @@
-
 let express = require('express');
 let app = express();
 const exphbs = require('express-handlebars');
 //const exphbs = require('express-handlebars');
+const stats = require('stats-analysis');
 
 
 const sqlite3 = require('sqlite3');
@@ -35,9 +35,6 @@ var hbs = exphbs.create({
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
-
-
-
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
@@ -45,39 +42,21 @@ app.use(bodyParser.json())
 
 app.use(express.static('public'));
 
-//app.get("/", function(req, res){
-
-//res.send("Water Usage App");
-//});
-
-
 open({
   filename: './usage.db',
   driver: sqlite3.Database
 }).then(async function (db) {
   await db.migrate();
 
-  app.get('/', async function (req, res) {
+    app.get('/', async function (req, res) {
 
-
-    const register = await db.all('select * from register')
-    res.render('login-screen', {
-      register
+      const register = await db.all('select * from register')
+      res.render('login-screen', {
+        register
+      });
 
     });
-
-
-
-    //.then(function(register){
-
-    //console.log(register); (this shows the whole database on the terminal)
-
-
-
-    //})
-
   });
-
 
   app.get('/login-screen', function (req, res) {
     res.render('login-screen');
@@ -112,9 +91,6 @@ open({
       .then(function (history) {
 
         console.log(history);
-
-
-
       })
 
 
@@ -127,14 +103,12 @@ open({
   });
 
 
+  app.post('/login',  function (req, res) {
 
+  console.log(req.body); 
 
-  //app.post('/login',  function (req, res) {
-
-  //console.log(req.body); 
-
-  //res.redirect('daily-usage-screen'); 
-  //});
+  res.redirect('daily-usage-screen'); 
+  });
 
   app.post('/login', function (req, res) {
 
@@ -154,8 +128,6 @@ open({
 
     console.log(req.body);
 
-
-
     res.redirect('leak-screen');
 
   });
@@ -163,8 +135,6 @@ open({
   app.post('/registration', function (req, res) {
 
     console.log(req.body);
-
-
 
     res.redirect('register-screen');
 
@@ -212,62 +182,194 @@ open({
 
   });
 
+  const dailyUsage = [
+    { value : 15, status : ''},
+    // { value : 17, status : ''},
+    // { value : 16, status : ''},
+    // { value : 11, status : ''},
+    // { value : 16, status : ''},
+    // { value : 9, status : ''},
+   ];
+
+  const weeklyUsage = [
+    { value : 55, status : ''},
+    // { value : 17, status : ''},
+    // { value : 16, status : ''},
+    // { value : 11, status : ''},
+    // { value : 16, status : ''},
+    // { value : 9, status : ''},
+   ];
+  const monthlyUsage = [
+    { value : 85, status : ''},
+    // { value : 17, status : ''},
+    // { value : 16, status : ''},
+    // { value : 11, status : ''},
+    // { value : 16, status : ''},
+    // { value : 9, status : ''},
+   ];
+
+  app.get('/daily', function(req, res) {
+
+    let values = dailyUsage.map (o => o.value);
+    const currentMean = stats.mean(values).toFixed(2);
+
+    res.render('template', {
+      heading : "Daily",
+      usageList : dailyUsage,
+      mean : currentMean
+    })
+  });
+
+  app.get('/weekly', function(req, res) {
+
+    let values = weeklyUsage.map (o => o.value);
+    const currentMean = stats.mean(values).toFixed(2);
+
+    res.render('template', {
+      heading : "Weekly",
+      usageList : weeklyUsage,
+      mean : currentMean
+    })
+  });
+
+  app.get('/monthly', function(req, res) {
+
+    let values = monthlyUsage.map (o => o.value);
+    const currentMean = stats.mean(values).toFixed(2);
+
+    res.render('template', {
+      heading : "Monthly",
+      usageList : monthlyUsage,
+      mean : currentMean
+    })
+  });
+
+
+  function processInput(inputValues, latest_usage, offset = 5) {
+    const currentUsage = Number(latest_usage);
+
+    let values = inputValues.map (o => o.value);
+    const currentMean = stats.mean(values);
+    let type = 'normal';
+
+    if (currentUsage >= (currentMean + offset)) {
+      type = 'wasted';
+    } else if (currentUsage <= (currentMean - offset)) {
+      type = 'saved';
+    } else {
+      type = 'normal'
+    }
+
+    inputValues.push({
+      value : currentUsage,
+      status : type
+    });
+
+    return {
+      type,
+      currentMean,
+      // values
+    };
+  }
+
   app.post('/submit_usage', function (req, res) {
-
+        
     const latest_usage = req.body.latest_usage;
-    usage.push(usage);
+    const screenType = req.body.type;
 
-    // run the algo for checking if outlier
+    console.log(screenType);
 
-    // use your existing algorithm code
-    const arr = [5, 7, 6, 5, 6, 6, 0];
-    const outlier = stats.indexOfOutliers(arr)  // Default theshold of 3
-    last = arr[arr.length - 1]
-    console.log(outlier)
+    let usage = [];
 
-    is_outlier = arr[outlier] == last
-    if (is_outlier) {
-      if (last > stats.mean(arr)) {
-        console.log("Too much")
-      }
-      else {
-        console.log("Saved")
-      }
-    }
-    else {
-      console.log("Normal")
-    }
-    if (outlier == null) {
-      console.log(arr[outlier])
+    if (screenType === 'Daily') {
+      usage = dailyUsage;
+    } else if (screenType === 'Weekly') {
+      usage = weeklyUsage;
+    } else if (screenType === 'Monthly'){
+      usage = monthlyUsage;
     }
 
+    const result = processInput(usage, latest_usage, 3);
 
-    let messageStyle = "";
+    const type = result.type;
+
+    let messageStyle = type;
 
     let message = "";
+    
     if (type === "saved") {
-      messageStyle = "saved"
       message = "Well done, you saved water"
-    }
-
-    if (type === "wasted") {
-      messageStyle = "wasted"
+    } else if (type === "wasted") {
       message = "Yikes you used more water this month. Slow down!"
-    }
-
-    if (message === "") {
+    } else  {
       message = "Your usage is consistent with your past water usage."
     }
 
-    res.render('usage', {
-      usage,
+    res.render('template', {
+      usageList: usage,
       messageStyle,
-      message
+      message,
+      mean : result.currentMean.toFixed(),
+      heading : screenType
+    });
+  });
+
+  app.post('/submit_weekly_usage', function (req, res) {
+        
+    const latest_usage = req.body.latest_usage;
+    const result = processInput(weeklyUsage, latest_usage, 5);
+
+    const type = result.type;
+
+    let messageStyle = type;
+
+    let message = "";
+    
+    if (type === "saved") {
+      message = "Well done, you saved water"
+    } else if (type === "wasted") {
+      message = "Yikes you used more water this month. Slow down!"
+    } else  {
+      message = "Your usage is consistent with your past water usage."
+    }
+
+    res.render('weekly_template', {
+      usageList: dailyUsage,
+      messageStyle,
+      message,
+      mean : result.currentMean.toFixed()
+    });
+  });
+
+  app.post('/submit_usage', function (req, res) {
+        
+    const latest_usage = req.body.latest_usage;
+    const result = processInput(dailyUsage, latest_usage, 3);
+
+    const type = result.type;
+
+    let messageStyle = type;
+
+    let message = "";
+    
+    if (type === "saved") {
+      message = "Well done, you saved water"
+    } else if (type === "wasted") {
+      message = "Yikes you used more water this month. Slow down!"
+    } else  {
+      message = "Your usage is consistent with your past water usage."
+    }
+
+    res.render('template', {
+      usageList: dailyUsage,
+      messageStyle,
+      message,
+      mean : result.currentMean.toFixed()
     });
   });
 
 
-let PORT = process.env.PORT || 3007;
+  let PORT = process.env.PORT || 3007;
 
   app.listen(PORT, function () {
     console.log('App starting on port', PORT);

@@ -25,6 +25,7 @@
     "express-handlebars": "^6.0.1",
     "nodemon": "^2.0.15",
     "sqlite": "^4.0.23",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "stats-analysis": "^2.0.0"
   }
 }
