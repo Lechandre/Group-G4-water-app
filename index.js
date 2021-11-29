@@ -114,7 +114,7 @@ open({
 
     console.log(req.body);
 
-    res.redirect('leak-screen');
+    res.redirect('daily');
   });
 
   app.post('/alert-screen', function (req, res) {
@@ -128,7 +128,7 @@ open({
 
     console.log(req.body);
 
-    res.redirect('leak-screen');
+    res.redirect('daily');
 
   });
 
